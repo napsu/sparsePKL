@@ -1,5 +1,5 @@
 # sparsePKL - Nonsmooth DC Optimization based Pairwise Kernel Learning Software 
-using LMB-DCA
+
 sparsePKL is a nonsmooth DC (difference of two convex functions) optimization based learning algorithm, which allows learning sparse models for predicting in pairwise data (e.g. drug-target interactions). It uses pairwise Kronecker product kernels computed via generalized vec-trick to model interactions between drug and target features. The included loss-functions for the pairwise kernel problem are:
 * least squares (LS)
 * squared hinge-loss
