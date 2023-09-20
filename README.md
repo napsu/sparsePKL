@@ -1,13 +1,12 @@
-# sparsePKL - Nonsmooth DC Optimization based Pairwise Kernel Learning Software 
+# sparsePKL - Sparse Pairwise Kernel Learning Software 
 
-sparsePKL is a nonsmooth DC (difference of two convex functions) optimization based learning algorithm, which allows learning sparse models for predicting in pairwise data (e.g. drug-target interactions). It uses pairwise Kronecker product kernels computed via generalized vec-trick to model interactions between drug and target features. The included loss-functions for the pairwise kernel problem are:
+sparsePKL is a learning algorithm based on nonsmooth DC (difference of two convex functions) optimization. It allows learning sparse models for predicting in pairwise data (e.g. drug-target interactions) by using double regularization with both L1-norm and L0-pseudonorm. The nonsmooth DC objective function is solved using the limited memory bundle DC algorithm (LMB-DCA).  The sofrware uses pairwise Kronecker product kernels computed via generalized vec-trick to model interactions between drug and target features. The included loss-functions for the pairwise kernel problem are:
 * least squares (LS)
 * squared hinge-loss
 * semi-squared hinge-loss
 * hinge-loss
 * L1-norm
 
-In all cases the double regularization term with both L1-norm and L0-pseudonorm is used. The nonsmooth DC objective function is solved using the limited memory bundle DC algorithm (LMB-DCA).  
 
 
 ## Files included
@@ -43,15 +42,15 @@ In all cases the double regularization term with both L1-norm and L0-pseudonorm 
 
 
 ## Installation and usage
-The source uses f2py, Python3.7, Cython, and requires a Fortran  compiler (gfortran by default) and the [RLScore](https://github.com/aatapa/RLScore) to be installed.
+The source uses f2py and Python3.7, and requires a Fortran  compiler (gfortran by default) and the [RLScore](https://github.com/aatapa/RLScore) to be installed.
 
 To use the code:
 1) Select the data, loss function, and the desired sparsity level from sparsepkl.py file.
 2) Run Makefile (by typing "make") to build a shared library that allows sparsepkl (Fortran95 code) to be called from Python. 
 3) Finally, just type "python3.7 sparsepkl.py".
 
-The algorithm returns a cvs-file with performance measures (C-index and MSE) computed in the test set under different experimental settings S1-S4. The best results are selected using a separate validation set and validated w.r.t. C-index.
-In addition, separate cvs-files with predictions under different experimental settings S1-S4 are returned. 
+The algorithm returns a csv-file with performance measures (C-index and MSE) computed in the test set under different experimental settings S1-S4. The best results are selected using a separate validation set and validated w.r.t. C-index.
+In addition, separate csv-files with predictions under different experimental settings S1-S4 are returned. 
 
 ## References:
 
