@@ -49,7 +49,6 @@ import csv
 import itertools as it
 import multiprocessing as mp
 import numpy as np
-import pandas as pd
 
 from numpy.random import SeedSequence
 import time 
@@ -196,9 +195,6 @@ def run_spkl(params):
     usedtime0 = time.process_time()
 
     # Starting point
-    #if zero_limit > 1.0/nrec:
-    #    apy = zero_limit * np.ones(int(nrec), dtype='d', order='F')
-    #else:
     apy = np.ones(int(nrec), dtype='d', order='F')/nrec # initialization of dual variable for Fortran
 
     MSEbestvali = 1.7976931348623157e+308
@@ -253,8 +249,6 @@ def run_spkl(params):
         if nz <= nzpros*nrec: # Desired sparsity
             if CIbestvali < valiCI:
                 CIbestvali = valiCI
-#                CIbesttest = testCI
-#                MSEbestwithCI = testMSE
                 CIbesttest = testCIsparse
                 MSEbestwithCI = testMSEsparse
                 itbestCI = int((h+1)*500)
@@ -275,15 +269,12 @@ def run_spkl(params):
                 print ("Optimization successfully terminated!\n")
                 print('CPU time = %4.2f' %usedtime)
                 print("The final solution w.r.t. C-index and MSE with %s applying %s after %i iterations with setting %s: %f and %f" %(opt_method, loss, int((h+1)*500), setting, CIbesttest, MSEbesttest))
-                #print(setting,best_lam_CI,testCI,testMSE,CIbesttest,MSEbesttest,usedtime)    
                 print('\n')
                 if nzpros < 1.0 or h>4: # to avoid premature termination in cases k=n
                     break
 
         else: # Not yet enough sparsity optained
             if nz < nzprev: # Save best so far solution
-#                CIbesttest = testCI
-#                MSEbestwithCI = testMSE
                 CIbesttest = testCIsparse
                 MSEbestwithCI = testMSEsparse
                 itbestCI = int((h+1)*500)
@@ -311,7 +302,6 @@ def run_spkl(params):
     with open('sparsePKL_predictions_'+opt_method+'_'+loss+'_'+ds+'_'+setting+'_'+str(random_seed)+'.csv', 'w') as f:
         writer = csv.writer(f, delimiter=";", lineterminator="\n")
         writer.writerow(field)
-        #writer.writerows([Ptestbest])
         for i in range(len(Y_test)):
             predi = [setting,Y_test[i],PCI[i],PMSE[i]]
             writer.writerow(predi)
@@ -332,12 +322,9 @@ if __name__ == "__main__":
     #datasets = ["GPCR"]
     #datasets = ["IC"]
     #datasets = ["E"]
-    datasets = ["davis","metz","GPCR","IC"]
-    #datasets = ["kiba","merget","E"]
+    datasets = ["kiba","merget","E"]
     #datasets = ["davis","metz","kiba","merget","GPCR","IC","E"]
-    #datasets = ["kiba","merget","GPCR","IC","E"]
-    #datasets = ["IC"]
-
+    
     # Select percentage of samples in training data with setting S1
     split_percentage = 1.0/3
 
@@ -348,9 +335,9 @@ if __name__ == "__main__":
     # Select the loss function from the list below (only one at the time!)
     #loss = "RLS"
     #loss = "L1"
-    #loss = "hinge-loss" # tästä puuttuu isot
+    #loss = "hinge-loss" 
     #loss = "semi-squared-hinge" 
-    loss = "squared-hinge" # tästä puuttuu isot
+    loss = "squared-hinge" 
     #loss = "svm-hinge" # the results are not convincing
 
     # Select the kernels (KD, KT, K_pairwise) from the list below (only one combination at the time).

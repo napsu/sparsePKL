@@ -44,7 +44,6 @@ MODULE obj_fun  ! Computation of the value and the subgradient of the
         myf2, &     ! Computation of the value of the objective f2.
         dcaf, &     ! Computation of the dca function.
         dcag, &     ! Computation of the subgradient of the dca function.
-        sum_of_k_max_elements3, & ! Computation of k-norm.
         sum_of_k_max_elements ! Computation of k-norm.
 
 
@@ -379,7 +378,7 @@ CONTAINS
 
         ! Function evaluation
         if (n>k) then
-            f = rho * sum_of_k_max_elements3(myx, k)
+            f = rho * sum_of_k_max_elements(myx, k)
         else
             f = rho * sum(abs(myx))
         end if
@@ -578,6 +577,7 @@ CONTAINS
 
     END SUBROUTINE myg2
     
+
     !************************************************************************
     !*                                                                      *
     !*     * FUNCTION sum_of_k_max_elements *                               *
@@ -587,112 +587,6 @@ CONTAINS
     !************************************************************************
 
     function sum_of_k_max_elements(arr, k) result(sumk)
-        USE initpkl, ONLY : &
-            indnz        ! array of indices of max elements in myx
-
-            implicit none
-        real(KIND=prec), intent(in) :: arr(:)
-        integer, intent(in) :: k
-        integer :: n, i, j, max_idx, indtmp
-        real(KIND=prec), allocatable :: sorted_arr(:)
-        real(KIND=prec) :: sumk, tmp
-      
-        !indnz = 0.0_prec
-        n = size(arr)
-        if (k > n) then
-          stop 'Error: k exceeds the size of the array'
-        endif
-      
-        allocate(sorted_arr(n))
-        sorted_arr = arr
-
-        do i = 1, n
-            indnz(i) = i
-        end do    
-        do i = 1, k
-            max_idx = i
-            do j = i + 1, n
-                if (abs(sorted_arr(j)) > abs(sorted_arr(max_idx))) then
-                    max_idx = j
-                end if
-            end do
-            if (max_idx /= i) then
-                tmp = sorted_arr(i)
-                sorted_arr(i) = sorted_arr(max_idx)
-                sorted_arr(max_idx) = tmp
-                indtmp = indnz(i)
-                indnz(i) = indnz(max_idx)
-                indnz(max_idx) = indtmp
-            end if
-        end do
-      
-        sumk = sum(abs(sorted_arr(1:k)))
-        !print*,'indnz',indnz(1:10)
-
-        !sumk2=0.0
-        !do i=k,1,-1
-        !    sumk2=sumk2+abs(sorted_arr(i))
-        !end do
-        
-        deallocate(sorted_arr)
-    end function sum_of_k_max_elements
-
-!************************************************************************
-    !*                                                                      *
-    !*     * FUNCTION sum_of_k_max_elements *                               *
-    !*                                                                      *
-    !*     Computation of the k-norm.                                       *
-    !*                                                                      *
-    !************************************************************************
-
-    function sum_of_k_max_elements2(arr, k) result(sumk)
-        USE initpkl, ONLY : &
-            indnz        ! array of indices of max elements in myx
-
-            implicit none
-        real(KIND=prec), intent(in) :: arr(:)
-        integer, intent(in) :: k
-        integer :: n, i, max_idx
-        !integer :: n, i, j, max_idx, indtmp
-        real(KIND=prec), allocatable :: sorted_arr(:)
-        integer, allocatable :: loc(:)
-        real(KIND=prec) :: sumk
-        !real(KIND=prec) :: sumk, tmp, sumk2
-      
-        !indnz = 0.0_prec
-        n = size(arr)
-        if (k > n) then
-          stop 'Error: k exceeds the size of the array'
-        endif
-      
-        allocate(sorted_arr(n),loc(size(shape(arr))))
-        sorted_arr = abs(arr)
-        sumk = 0.0_prec
-
-        do i = 1, n
-            indnz(i) = i
-        end do    
-        do i = 1, k
-            loc = maxloc(sorted_arr)
-            max_idx = loc(1)
-            sumk = sumk + maxval(sorted_arr)
-            sorted_arr(max_idx) = 0.0_prec
-            indnz(i) = max_idx ! k:ssa ensimmäisessä kohdassa pitää olla k:n suurimman indeksit
-        end do
-        !print*,'indnz',indnz(1:10)
-        deallocate(sorted_arr,loc)
-    end function sum_of_k_max_elements2
-
-
-!************************************************************************
-    !*                                                                      *
-    !*     * FUNCTION sum_of_k_max_elements *                               *
-    !*                                                                      *
-    !*     Computation of the k-norm.                                       *
-    !*                                                                      *
-    !************************************************************************
-
-    function sum_of_k_max_elements3(arr, k) result(sumk)
         USE initpkl, ONLY : &
             indnz        ! array of indices of max elements in myx
 
@@ -724,20 +618,17 @@ CONTAINS
             j=j+1
           end if
         end do
-!        print*,'j,k',j,k
         if (j < k+1) then ! for the special case of even values
           do i=1,n
             if (abs(arr(i))==tmp) then
               sumk=sumk+abs(arr(i))
-              indnz(j)=i ! tällä pitäisi nyt tulla k indeksiä taulukon alkuun, 
-              ! tarkista tasaluvut i.e. jos kaksi alkiota a:ssa on yhtäsuuria tms.
+              indnz(j)=i 
               j=j+1
               if (j>k) exit
-              ! lisäksi täällä lienee "käänteinen" k eli k:lla etsitään pienempiä alkioita. Meidän pitää lähettää n-k?
             end if
           end do
         end if
-    end function sum_of_k_max_elements3    
+    end function sum_of_k_max_elements    
 
     !*************************************************************************************
     recursive function bisection(a,k,strict,v1,v2,k1,k2) result(val)

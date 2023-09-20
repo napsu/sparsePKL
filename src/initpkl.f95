@@ -21,8 +21,6 @@ MODULE initpkl  ! Initialization of parameters for pairwise kernel learning.
     ! Input real parameters. Give values here.
     REAL(KIND=prec), SAVE :: & !
         epsilon = 0.01_prec           ! Epsilon for epsilon intensive hinge-losses
-    !REAL, SAVE :: &
-    !    tlimit    = 720.0             ! Maximum CPU-time in seconds, from user.
 
     ! Allocatable tables
     REAL(KIND=prec), SAVE, DIMENSION(:), allocatable :: &
