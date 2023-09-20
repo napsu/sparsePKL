@@ -32,7 +32,7 @@ sparsePKL is a pairwise kernel learning algorithm based on nonsmooth DC (differe
     + param - Parameters,
     + exe_time - Execution time.
 * subpro.f95
-  - subprograms for LMBM.
+  - subprograms for LMB-DCA and LMBM.
 * data.py
   - Contains functions to load the example data sets. Data files are assumed to be in a folder "data" that is not part of the current folder.
   - Contains functions to create train-test-validation splits. Splits are created for every experimental setting S1-S4 (see the reference below).
