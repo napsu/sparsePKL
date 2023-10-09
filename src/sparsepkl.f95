@@ -196,6 +196,9 @@ CONTAINS
         else if (loss == "squared-hinge") then
             !print*,'Learning with squared hinge loss.'
             rf = 6
+        else if (loss == "squared-svm") then
+            !print*,'Learning with squared hinge loss.'
+            rf = 7
 
             
         else        

@@ -311,6 +311,14 @@ CONTAINS
             f = 0.5_prec*f
             f = f/REAL(n,prec) 
     
+        CASE(7) ! squared SVM
+            call compute_ka(p,myx,n) ! computes p = K myx
+            DO i=1,n
+                f = f + (MAX (zero,1 - p(i)*y(i)))**2
+            END DO
+            f=0.5_prec*f
+            f = f/REAL(n,prec) 
+
         CASE DEFAULT !
             iterm = -3
             RETURN
@@ -440,7 +448,7 @@ CONTAINS
                 CASE(2) ! Hinge loss
                     DO i=1,n
                         if (ABS(p(i)-y(i)) > epsilon) then
-                            if (p(i)-y(i) > zero) then
+                            if (p(i)-y(i) >= epsilon) then
                                 g(i) = 1.0_prec
                             else
                                 g(i) = -1.0_prec
@@ -484,8 +492,8 @@ CONTAINS
                 CASE(6) ! squared hinge loss
                     DO i=1,n
                         if (ABS(p(i)-y(i)) > epsilon) then
-                            if (p(i)-y(i) > zero) then
-                                g(i) = p(i)-y(i)-epsilon
+                            if (p(i)-y(i) > epsilon) then
+                                    g(i) = p(i)-y(i)-epsilon
                             else
                                 g(i) = p(i)-y(i)+epsilon
                             end if
@@ -495,6 +503,14 @@ CONTAINS
                     call compute_ka(g,g,n)
                     g = g/REAL(n,prec)
 
+                CASE(7) ! squared SVM
+                    DO i=1,n
+                        if (1 - p(i)*y(i) > 0) then
+                            g(i) = - y(i)*(1-p(i)*y(i))
+                        end if
+                    END DO
+                    call compute_ka(g,g,n)
+                    g = g/REAL(n,prec)
                 CASE DEFAULT !
                     iterm = -3
     
@@ -594,20 +610,14 @@ CONTAINS
         real(KIND=prec), intent(in) :: arr(:)
         integer, intent(in) :: k
         integer :: n, i, j
-        !real(KIND=prec), allocatable :: sorted_arr(:)
-        !integer, allocatable :: loc(:)
         real(KIND=prec) :: sumk, tmp
-        !real(KIND=prec) :: sumk, tmp, sumk2
       
         indnz = 0.0_prec
-        n = size(arr) ! tämän voi myös lähettää save muuttujana
+        n = size(arr) 
         if (k > n) then
           stop 'Error: k exceeds the size of the array'
         endif
       
-        !allocate(sorted_arr(n),loc(size(shape(arr))))
-        !sorted_arr = abs(arr)
-        !sumk = 0.0_prec
         tmp = bisection(abs(arr),n-k)
         sumk=0.0
         j=1

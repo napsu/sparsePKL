@@ -49,6 +49,7 @@ import csv
 import itertools as it
 import multiprocessing as mp
 import numpy as np
+#import math # for sqrt
 
 from numpy.random import SeedSequence
 import time 
@@ -231,7 +232,7 @@ def run_spkl(params):
 
         # Sparse solution
         nz = len(apy[np.abs(apy) > zero_limit])
-        for i in range(n): # Tätä kannattaa testata kannattaako laittaa
+        for i in range(n): 
             if np.abs(apy[i]) <= zero_limit:
                 apy[i] = 0.0 
 
@@ -322,8 +323,7 @@ if __name__ == "__main__":
     #datasets = ["GPCR"]
     #datasets = ["IC"]
     #datasets = ["E"]
-    datasets = ["kiba","merget","E"]
-    #datasets = ["davis","metz","kiba","merget","GPCR","IC","E"]
+    datasets = ["davis","metz","kiba","merget","GPCR","IC","E"]
     
     # Select percentage of samples in training data with setting S1
     split_percentage = 1.0/3
@@ -336,9 +336,10 @@ if __name__ == "__main__":
     #loss = "RLS"
     #loss = "L1"
     #loss = "hinge-loss" 
-    #loss = "semi-squared-hinge" 
-    loss = "squared-hinge" 
+    loss = "semi-squared-hinge" 
+    #loss = "squared-hinge" 
     #loss = "svm-hinge" # the results are not convincing
+    #loss = "squared-svm" # the results are not convincing
 
     # Select the kernels (KD, KT, K_pairwise) from the list below (only one combination at the time).
     kernels = [["gaussian", "gaussian", "pko_kronecker"]]
@@ -351,7 +352,6 @@ if __name__ == "__main__":
     regparam = [0.0001] # Used with autoreg == 0.
     
     # Part of elements in dual vector we allow to be nonzero (i.e. 0.5 is 50%). 
-    # Note, if you select nz-percentage = 1.0, the code still computes k-norm. I.e. lots of extra computation is made.
     #nz_percentage = [0.50] 
     nz_percentage = [1.0,0.50,0.20,0.10] 
     
@@ -372,44 +372,36 @@ if __name__ == "__main__":
         print('\n')
 
         for random_seed in random_seeds:
-            #if random_seed == 2688385916 or random_seed == 3048105090 or random_seed == 4196366895:
-            if random_seed == 1:
-                pass
-            else:
-                field = ["Setting","nz%","lambda (CI)", "C-index (CI)", "MSE (CI)","nz% (CI)","nit (CI)","lambda (MSE)", "C-index (MSE)", "MSE (MSE)","nz% (MSE)","nit (MSE)","CPU-time"]
-                with open('SPKL6_indices_'+opt_methods+'_'+loss+'_'+ds+'_'+str(random_seed)+'.csv', 'w') as f:
-                    writer = csv.writer(f, delimiter=";", lineterminator="\n")
-                    writer.writerow(field)
+            field = ["Setting","nz%","lambda (CI)", "C-index (CI)", "MSE (CI)","nz% (CI)","nit (CI)","lambda (MSE)", "C-index (MSE)", "MSE (MSE)","nz% (MSE)","nit (MSE)","CPU-time"]
+            with open('SPKL9_indices_'+opt_methods+'_'+loss+'_'+ds+'_'+str(random_seed)+'.csv', 'w') as f:
+                writer = csv.writer(f, delimiter=";", lineterminator="\n")
+                writer.writerow(field)
         
-                for nz_p in nz_percentage:
+            for nz_p in nz_percentage:
 
-                    time_start = time.time()
+                time_start = time.time()
         
                 # Create the splits for the four different experimental settings such that there is one common test set 
                 # for every setting. The split_percentage defines number of training samples in S1 setting. The rest of 
                 # samples are divided to test and validation.
-                    df, splits = data.splits(drug_inds, target_inds, split_percentage, random_seed)
-                    print("Splits in "+ds+" calculated in time", time.time()-time_start)
-                    splits_1234 = list(it.chain.from_iterable(splits))
+                df, splits = data.splits(drug_inds, target_inds, split_percentage, random_seed)
+                print("Splits in "+ds+" calculated in time", time.time()-time_start)
+                splits_1234 = list(it.chain.from_iterable(splits))
             
-                    parameters = it.product([Y], [XD], [XT], [drug_inds], [target_inds], splits_1234,[ds],[opt_methods],[loss],[kernels],[ireg],[autoreg],[regparam],[nz_p])
+                parameters = it.product([Y], [XD], [XT], [drug_inds], [target_inds], splits_1234,[ds],[opt_methods],[loss],[kernels],[ireg],[autoreg],[regparam],[nz_p])
         
                 # Compute different settings at the same time.
-                    pool = mp.Pool(processes = 4)
-                    output = pool.map(run_spkl, list(parameters))
-                    pool.close()
-                    pool.join()
+                pool = mp.Pool(processes = 4)
+                output = pool.map(run_spkl, list(parameters))
+                pool.close()
+                pool.join()
 
-                    print(output)
-                    print('\n')
+                print(output)
+                print('\n')
                 
                 # Save result indices (predictions are saved above)
-                    print("printing results 1")
-                    with open('SPKL6_indices_'+opt_methods+'_'+loss+'_'+ds+'_'+str(random_seed)+'.csv', 'a') as f:
-                        print("printing results 2")
-                        writer = csv.writer(f, delimiter=";", lineterminator="\n")
-                        print("printing results 3")
-                        writer.writerows(output)
-                    print("printing results 4")
+                with open('SPKL9_indices_'+opt_methods+'_'+loss+'_'+ds+'_'+str(random_seed)+'.csv', 'a') as f:
+                    writer = csv.writer(f, delimiter=";", lineterminator="\n")
+                    writer.writerows(output)
                 
 
