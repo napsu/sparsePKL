@@ -7,9 +7,9 @@ Function to load an incomplete data set introduced by Metz et al. (2011).
 Returns the data matrices and lists of drug and target indices for the known pairs.
 """
 def load_metz():
-    Y = np.loadtxt("../../LMBMPy/data/known_drug-target_interaction_affinities_pKi__Metz_et_al.2011.txt")
-    XD = np.loadtxt("../../LMBMPy/data/drug-drug_similarities_2D__Metz_et_al.2011.txt")
-    XT = np.loadtxt("../../LMBMPy/data/target-target_similarities_WS_normalized__Metz_et_al.2011.txt")
+    Y = np.loadtxt("../data/known_drug-target_interaction_affinities_pKi__Metz_et_al.2011.txt")
+    XD = np.loadtxt("../data/drug-drug_similarities_2D__Metz_et_al.2011.txt")
+    XT = np.loadtxt("../data/target-target_similarities_WS_normalized__Metz_et_al.2011.txt")
     drug_inds, target_inds = np.where(np.isnan(Y)==False)
     Y = Y[drug_inds, target_inds]
     return XD, XT, Y, drug_inds.astype('int32'), target_inds.astype('int32')
@@ -23,9 +23,9 @@ The returned continuous labels are natural logarithm of the Kd values so that th
 range is again similar to the range of continuous labels in Metz data.
 """
 def load_davis():
-    Y = np.loadtxt("../../LMBMPy/data/drug-target_interaction_affinities_Kd__Davis_et_al.2011.txt")
-    XD = np.loadtxt("../../LMBMPy/data/drug-drug_similarities_2D.txt")
-    XT = np.loadtxt("../../LMBMPy/data/target-target_similarities_WS_normalized.txt")
+    Y = np.loadtxt("../data/drug-target_interaction_affinities_Kd__Davis_et_al.2011.txt")
+    XD = np.loadtxt("../data/drug-drug_similarities_2D.txt")
+    XT = np.loadtxt("../data/target-target_similarities_WS_normalized.txt")
     XD = 100*XD
     drug_inds, target_inds = np.where(np.isnan(Y)==False)
     Y = Y[drug_inds, target_inds]
@@ -41,9 +41,9 @@ The matrices of drug similarities and target similaritied are multiplied by 100 
 order to obtain the same range as in the corresponding matrices of Metz data.
 """
 def load_merget():
-    Y = np.loadtxt("../../LMBMPy/data/Merget/Merget_DTIs_2967com_226kin.txt")
-    XD = np.loadtxt("../../LMBMPy/data/Merget/Kd_Tanimoto-shortestpath.txt")
-    XT = np.loadtxt("../../LMBMPy/data/Merget/Kp_GS-ATP_L5_Sp4.0_Sc4.0.txt")
+    Y = np.loadtxt("../data/Merget/Merget_DTIs_2967com_226kin.txt")
+    XD = np.loadtxt("../data/Merget/Kd_Tanimoto-shortestpath.txt")
+    XT = np.loadtxt("../data/Merget/Kp_GS-ATP_L5_Sp4.0_Sc4.0.txt")
     XD = 100*XD
     XT = 100*XT
     drug_inds, target_inds = np.where(np.isnan(Y)==False)
@@ -60,9 +60,9 @@ because their last columns were such that all values were "NA" and the numbers o
 rows and columns did not match.
 """
 def load_kiba():
-    Y = np.loadtxt("../../LMBMPy/data/kiba/kiba_binding_affinity_v2.txt")
-    XD = np.loadtxt("../../LMBMPy/data/kiba/kiba_drug_sim.txt")
-    XT = np.loadtxt("../../LMBMPy/data/kiba/kiba_target_sim.txt")
+    Y = np.loadtxt("../data/kiba/kiba_binding_affinity_v2.txt")
+    XD = np.loadtxt("../data/kiba/kiba_drug_sim.txt")
+    XT = np.loadtxt("../data/kiba/kiba_target_sim.txt")
     XD = 100*XD
     XT = 100*XT
     drug_inds, target_inds = np.where(np.isnan(Y)==False)
@@ -70,9 +70,9 @@ def load_kiba():
     return XD, XT, Y, drug_inds.astype('int32'), target_inds.astype('int32')
 
 def load_GPCR():
-    Y = np.loadtxt("../../LMBMPy/data/gpcr_admat_dgc.txt")
-    XD = np.loadtxt("../../LMBMPy/data/gpcr_simmat_dc.txt")
-    XT = np.loadtxt("../../LMBMPy/data/gpcr_simmat_dg.txt")
+    Y = np.loadtxt("../data/gpcr_admat_dgc.txt")
+    XD = np.loadtxt("../data/gpcr_simmat_dc.txt")
+    XT = np.loadtxt("../data/gpcr_simmat_dg.txt")
     XD = 100*XD
     XT = 100*XT
     drug_inds, target_inds = np.where(np.isnan(Y)==False)
@@ -80,9 +80,9 @@ def load_GPCR():
     return XD, XT, Y, drug_inds.astype('int32'), target_inds.astype('int32')
 
 def load_IC():
-    Y = np.loadtxt("../../LMBMPy/data/ic_admat_dgc.txt")
-    XD = np.loadtxt("../../LMBMPy/data/ic_simmat_dc.txt")
-    XT = np.loadtxt("../../LMBMPy/data/ic_simmat_dg.txt")
+    Y = np.loadtxt("../data/ic_admat_dgc.txt")
+    XD = np.loadtxt("../data/ic_simmat_dc.txt")
+    XT = np.loadtxt("../data/ic_simmat_dg.txt")
     XD = 100*XD
     XT = 100*XT
     drug_inds, target_inds = np.where(np.isnan(Y)==False)
@@ -90,9 +90,9 @@ def load_IC():
     return XD, XT, Y, drug_inds.astype('int32'), target_inds.astype('int32')
 
 def load_E():
-    Y = np.loadtxt("../../LMBMPy/data/e_admat_dgc.txt")
-    XD = np.loadtxt("../../LMBMPy/data/e_simmat_dc.txt")
-    XT = np.loadtxt("../../LMBMPy/data/e_simmat_dg.txt")
+    Y = np.loadtxt("../data/e_admat_dgc.txt")
+    XD = np.loadtxt("../data/e_simmat_dc.txt")
+    XT = np.loadtxt("../data/e_simmat_dg.txt")
     XD = 100*XD
     XT = 100*XT
     drug_inds, target_inds = np.where(np.isnan(Y)==False)

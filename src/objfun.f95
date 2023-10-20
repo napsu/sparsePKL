@@ -316,7 +316,7 @@ CONTAINS
             DO i=1,n
                 f = f + (MAX (zero,1 - p(i)*y(i)))**2
             END DO
-            f=0.5_prec*f
+            f = 0.5_prec*f
             f = f/REAL(n,prec) 
 
         CASE DEFAULT !
@@ -330,6 +330,7 @@ CONTAINS
         
         ptmp = sum(abs(myx))
         rho = (f / ptmp)/(REAL(n,prec)**2)
+        if (rho == 0.0_prec) rho = 1.0_prec
         rho2 = rho 
         if (ireg == 0) then
             f = f + f/(REAL(n,prec)**2)
@@ -345,6 +346,10 @@ CONTAINS
         end if
     end if     
     
+    if (rf==7 .OR. rf==5) then ! triple regularization
+        f = f + 0.5_prec*rho*DOT_PRODUCT(p,p) 
+    end if
+
     ! Error checking.
     IF (f > large) iterm = -3  !
     IF (f < -large) iterm = -3 !
@@ -487,6 +492,7 @@ CONTAINS
                             g(i) = - y(i)
                         end if
                     END DO
+                    g = g + rho*p ! triple regularization
                     call compute_ka(g,g,n)
                     
                 CASE(6) ! squared hinge loss
@@ -509,8 +515,9 @@ CONTAINS
                             g(i) = - y(i)*(1-p(i)*y(i))
                         end if
                     END DO
-                    call compute_ka(g,g,n)
                     g = g/REAL(n,prec)
+                    g = g + rho*p ! triple regularization
+                    call compute_ka(g,g,n)
                 CASE DEFAULT !
                     iterm = -3
     

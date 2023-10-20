@@ -49,7 +49,8 @@
 !*     References:
 !*
 !*     for sparsePKL:
-!*
+!*       N. Karmitsa, K. Joki, "Limited memory bundle DC algorithm for sparse 
+!*       pairwise kernel learning", 2023. 
 !*
 !*     for RLScore:
 !*

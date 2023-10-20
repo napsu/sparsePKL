@@ -23,9 +23,9 @@ to be installed. Finally, just type "python3.7 sparsepkl.py".
 
 References:
 
-    for sparsePKL:
-       N. Karmitsa, K. Joki, "Limited memory bundle DC algorithm for sparse 
-       pairwise kernel learning", 2023. 
+    for sparsePKL and LMB-DCA:
+       N. Karmitsa, K. Joki, A. Airola, T. Pahikkala, "Limited memory bundle DC 
+       algorithm for sparse pairwise kernel learning", 2023. 
 
     for RLScore:
        T. Pahikkala, A. Airola, "Rlscore: Regularized least-squares learners", 
@@ -197,6 +197,7 @@ def run_spkl(params):
 
     # Starting point
     apy = np.ones(int(nrec), dtype='d', order='F')/nrec # initialization of dual variable for Fortran
+    #apy = np.ones(int(nrec), dtype='d', order='F') # initialization of dual variable for Fortran
 
     MSEbestvali = 1.7976931348623157e+308
     MSEbesttest = 1.7976931348623157e+308
@@ -316,14 +317,14 @@ if __name__ == "__main__":
     random_seeds = ss.generate_state(repetitions)
     
     # Select the data from the list below (or add your own with appropriate loading procedure)
-    #datasets = ["davis"]
+    datasets = ["davis"]
     #datasets = ["metz"]
     #datasets = ["kiba"]
     #datasets = ["merget"]
     #datasets = ["GPCR"]
     #datasets = ["IC"]
     #datasets = ["E"]
-    datasets = ["davis","metz","kiba","merget","GPCR","IC","E"]
+    #datasets = ["davis","metz","kiba","merget","GPCR","IC","E"]
     
     # Select percentage of samples in training data with setting S1
     split_percentage = 1.0/3
@@ -338,8 +339,8 @@ if __name__ == "__main__":
     #loss = "hinge-loss" 
     loss = "semi-squared-hinge" 
     #loss = "squared-hinge" 
-    #loss = "svm-hinge" # the results are not convincing
-    #loss = "squared-svm" # the results are not convincing
+    #loss = "svm-hinge" # use without auto-regularization with regparam = 0.00001
+    #loss = "squared-svm" # use without auto-regularization with regparam = 0.00001
 
     # Select the kernels (KD, KT, K_pairwise) from the list below (only one combination at the time).
     kernels = [["gaussian", "gaussian", "pko_kronecker"]]
@@ -349,10 +350,9 @@ if __name__ == "__main__":
     # Select regularization
     ireg = 1 # Switch for regularization: 0 = only L0-norm, 1 = double regularization with L1- and L0-norms (default). 
     autoreg = 1 # Type of regularization: 0 = selected first regularization parameter (give the value below), 1 = automatic regularization (default).
-    regparam = [0.0001] # Used with autoreg == 0.
+    regparam = [0.00001] # Used with autoreg == 0.
     
     # Part of elements in dual vector we allow to be nonzero (i.e. 0.5 is 50%). 
-    #nz_percentage = [0.50] 
     nz_percentage = [1.0,0.50,0.20,0.10] 
     
     for ds in datasets:
@@ -373,7 +373,7 @@ if __name__ == "__main__":
 
         for random_seed in random_seeds:
             field = ["Setting","nz%","lambda (CI)", "C-index (CI)", "MSE (CI)","nz% (CI)","nit (CI)","lambda (MSE)", "C-index (MSE)", "MSE (MSE)","nz% (MSE)","nit (MSE)","CPU-time"]
-            with open('SPKL9_indices_'+opt_methods+'_'+loss+'_'+ds+'_'+str(random_seed)+'.csv', 'w') as f:
+            with open('SPKL_indices_'+opt_methods+'_'+loss+'_'+ds+'_'+str(random_seed)+'.csv', 'w') as f:
                 writer = csv.writer(f, delimiter=";", lineterminator="\n")
                 writer.writerow(field)
         
@@ -400,7 +400,7 @@ if __name__ == "__main__":
                 print('\n')
                 
                 # Save result indices (predictions are saved above)
-                with open('SPKL9_indices_'+opt_methods+'_'+loss+'_'+ds+'_'+str(random_seed)+'.csv', 'a') as f:
+                with open('SPKL_indices_'+opt_methods+'_'+loss+'_'+ds+'_'+str(random_seed)+'.csv', 'a') as f:
                     writer = csv.writer(f, delimiter=";", lineterminator="\n")
                     writer.writerows(output)
                 
