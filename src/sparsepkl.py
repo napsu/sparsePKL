@@ -12,7 +12,7 @@ The sparsePKL software is covered by the MIT license.
 
 First, select the data, loss function, and desired sparsity below. 
 Then, run Makefile (by typing "make") to build a shared library that 
-allows LMB-DCA (Fortran95 code) to be called from Python program saprsePKL. 
+allows LMB-DCA (Fortran95 code) to be called from Python program sparsePKL. 
 The source uses f2py, Python3.7, and requires a Fortran  compiler 
 (gfortran by default) and the RLScore 
  
@@ -334,13 +334,13 @@ if __name__ == "__main__":
     #opt_methods = "DCA" 
     
     # Select the loss function from the list below (only one at the time!)
-    #loss = "RLS"
-    #loss = "L1"
-    #loss = "hinge-loss" 
-    loss = "semi-squared-hinge" 
-    #loss = "squared-hinge" 
-    #loss = "svm-hinge" # use without auto-regularization with regparam = 0.00001
-    #loss = "squared-svm" # use without auto-regularization with regparam = 0.00001
+    #loss = "RLS"                # Squared loss
+    #loss = "L1"                 # Absolute loss
+    #loss = "hinge-loss"         # Epsilon-Insensitive Absolute Loss
+    loss = "semi-squared-hinge"  # Epsilon-Insensitive Squared Loss
+    #loss = "squared-hinge"      # Squared Epsilon-Insensitive Loss
+    #loss = "svm-hinge"          # use without auto-regularization with regparam = 0.00001
+    #loss = "squared-svm"        # use without auto-regularization with regparam = 0.00001
 
     # Select the kernels (KD, KT, K_pairwise) from the list below (only one combination at the time).
     kernels = [["gaussian", "gaussian", "pko_kronecker"]]
