@@ -1,11 +1,11 @@
 # sparsePKL - Sparse Pairwise Kernel Learning Software 
 
 sparsePKL is a pairwise kernel learning algorithm based on nonsmooth DC (difference of two convex functions) optimization. It learns sparse models for predicting in pairwise data (e.g. drug-target interactions) by using double regularization with both L1-norm and L0-pseudonorm. The nonsmooth DC optimization problem is solved using the limited memory bundle DC algorithm (LMB-DCA).  In addition, sparsePKL uses pairwise Kronecker product kernels computed via generalized vec-trick to model interactions between drug and target features. The included loss-functions for the pairwise kernel problem are:
-* least squares
-* squared hinge-loss
-* semi-squared hinge-loss
-* hinge-loss
-* L1-norm
+* squared loss,
+* squared epsilon-insensitive loss,
+* epsilon-insensitive squared loss,
+* epsilon-insensitive absolute loss,
+* absolute loss.
 
 
 
@@ -54,7 +54,8 @@ In addition, separate csv-files with predictions under different experimental se
 
 ## References:
 
-* sparsePKL:
+* sparsePKL and LMB-DCA:
+  - N. Karmitsa, K. Joki, A. Airola, T. Pahikkala, "Limited memory bundle DC algorithm for sparse pairwise kernel learning", 2023.  
 * [RLScore](https://github.com/aatapa/RLScore):
   - T. Pahikkala, A. Airola, "[Rlscore: Regularized least-squares learners](https://www.jmlr.org/papers/volume17/16-470/16-470.pdf)", Journal of Machine Learning Research, Vol. 17, No. 221, pp. 1-5, 2016.
 * LMBM:
