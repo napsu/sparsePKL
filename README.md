@@ -55,7 +55,7 @@ In addition, separate csv-files with predictions under different experimental se
 ## References:
 
 * sparsePKL and LMB-DCA:
-  - N. Karmitsa, K. Joki, A. Airola, T. Pahikkala, "Limited memory bundle DC algorithm for sparse pairwise kernel learning", 2023.  
+  - N. Karmitsa, K. Joki, A. Airola, T. Pahikkala, "Limited memory bundle DC algorithm for sparse pairwise kernel learning", Journal of Global Optimization, in-press 2025.  
 * [RLScore](https://github.com/aatapa/RLScore):
   - T. Pahikkala, A. Airola, "[Rlscore: Regularized least-squares learners](https://www.jmlr.org/papers/volume17/16-470/16-470.pdf)", Journal of Machine Learning Research, Vol. 17, No. 221, pp. 1-5, 2016.
 * LMBM:
