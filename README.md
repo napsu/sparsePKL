@@ -55,17 +55,17 @@ In addition, separate csv-files with predictions under different experimental se
 ## References:
 
 * sparsePKL and LMB-DCA:
-  - N. Karmitsa, K. Joki, A. Airola, T. Pahikkala, "Limited memory bundle DC algorithm for sparse pairwise kernel learning", Journal of Global Optimization, in-press 2025.  
+  - N. Karmitsa, K. Joki, A. Airola, T. Pahikkala, "Limited memory bundle DC algorithm for sparse pairwise kernel learning", _Journal of Global Optimization_, in-press 2025.  
 * [RLScore](https://github.com/aatapa/RLScore):
-  - T. Pahikkala, A. Airola, "[Rlscore: Regularized least-squares learners](https://www.jmlr.org/papers/volume17/16-470/16-470.pdf)", Journal of Machine Learning Research, Vol. 17, No. 221, pp. 1-5, 2016.
+  - T. Pahikkala, A. Airola, "[Rlscore: Regularized least-squares learners](https://www.jmlr.org/papers/volume17/16-470/16-470.pdf)", _Journal of Machine Learning Research_, Vol. 17, No. 221, pp. 1-5, 2016.
 * LMBM:
-  - N. Haarala, K. Miettinen, M.M. Mäkelä, "[Globally Convergent Limited Memory Bundle Method for Large-Scale Nonsmooth Optimization](https://link.springer.com/article/10.1007/s10107-006-0728-2)", Mathematical Programming, Vol. 109, No. 1, pp. 181-205, 2007.
-  - M. Haarala, K. Miettinen, M.M. Mäkelä, "[New Limited Memory Bundle Method for Large-Scale Nonsmooth Optimization](https://www.tandfonline.com/doi/abs/10.1080/10556780410001689225)", Optimization Methods and Software, Vol. 19, No. 6, pp. 673-692, 2004.
+  - N. Haarala, K. Miettinen, M.M. Mäkelä, "[Globally Convergent Limited Memory Bundle Method for Large-Scale Nonsmooth Optimization](https://link.springer.com/article/10.1007/s10107-006-0728-2)", _Mathematical Programming_, Vol. 109, No. 1, pp. 181-205, 2007.
+  - M. Haarala, K. Miettinen, M.M. Mäkelä, "[New Limited Memory Bundle Method for Large-Scale Nonsmooth Optimization](https://www.tandfonline.com/doi/abs/10.1080/10556780410001689225)", _Optimization Methods and Software_, Vol. 19, No. 6, pp. 673-692, 2004.
 * Generalized vec trick and experimental settings:
-  - A. Airola, T. Pahikkala, "[Fast kronecker product kernel methods via generalized vec trick](https://ieeexplore.ieee.org/document/7999226)", IEEE Transactions on Neural Networks and Learning Systems, Vol. 29, pp. 3374–3387, 2018.
-  - M. Viljanen, A. Airola, T. Pahikkala, "[Generalized vec trick for fast learning of pairwise kernel models](https://link.springer.com/article/10.1007/s10994-021-06127-y)", Machine Learning, Vol. 111, 543–573, 2022.
+  - A. Airola, T. Pahikkala, "[Fast kronecker product kernel methods via generalized vec trick](https://ieeexplore.ieee.org/document/7999226)", _IEEE Transactions on Neural Networks and Learning Systems_, Vol. 29, pp. 3374–3387, 2018.
+  - M. Viljanen, A. Airola, T. Pahikkala, "[Generalized vec trick for fast learning of pairwise kernel models](https://link.springer.com/article/10.1007/s10994-021-06127-y)", _Machine Learning_, Vol. 111, 543–573, 2022.
 * Nonsmooth optimization:
-  - A. Bagirov, N. Karmitsa, M.M. Mäkelä, "[Introduction to nonsmooth optimization: theory, practice and software](https://link.springer.com/book/10.1007/978-3-319-08114-4)", Springer, 2014.
+  - A. Bagirov, N. Karmitsa, M.M. Mäkelä, "[Introduction to nonsmooth optimization: theory, practice and software](https://link.springer.com/book/10.1007/978-3-319-08114-4)", _Springer_, 2014.
 
 ## Acknowledgements
 The work was financially supported by the Research Council of Finland projects (Project No. #345804 and #345805) led by Antti Airola and Tapio Pahikkala.
